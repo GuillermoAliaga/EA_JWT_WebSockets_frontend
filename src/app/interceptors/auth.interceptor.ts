@@ -16,11 +16,9 @@ function withToken(request: HttpRequest<unknown>, token: string): HttpRequest<un
 // Un interceptor se ejecuta en TODAS las peticiones de HttpClient, entre el servicio y la red.
 // Este hace dos cosas, para que ningún servicio tenga que preocuparse del token:
 //   1. Añade la cabecera Authorization: Bearer <token>.
-//   2. Si la API responde 401 porque el token ha caducado, pide uno nuevo con el refresh token
-//      y repite la petición. Si no se puede renovar, cierra la sesión (lleva al login).
+// EXPLICAR EN EL VÍDEO
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
-  // Las rutas de /auth no llevan token: login y register son públicas y refresh manda el suyo
-  // en el body. Además, así un 401 del login (contraseña mala) no cierra ninguna sesión.
+  // EXPLICAR EN EL VÍDEO
   if (request.url.startsWith(`${environment.apiUrl}/auth/`)) {
     return next(request);
   }

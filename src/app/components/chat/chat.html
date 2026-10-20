@@ -52,6 +52,11 @@
     <p class="chat-error" role="alert">{{ error() }}</p>
   }
 
+  <!-- EXPLICAR EN EL VÍDEO -->
+  @if (newBook(); as book) {
+    <p class="notice" role="status">Nuevo libro creado: {{ book.title }}</p>
+  }
+
   <nav class="chat-tabs" role="tablist" aria-label="Tipo de chat">
     <button
       type="button"

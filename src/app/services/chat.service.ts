@@ -23,6 +23,12 @@ export interface ChatError {
   message: string;
 }
 
+// EXPLICAR EN EL VÍDEO
+export interface BookCreatedEvent {
+  _id: string;
+  title: string;
+}
+
 // Mensaje con el que el backend rechaza la conexión si el token falta, es falso o ha caducado
 const AUTH_ERROR = 'Authentication error';
 
@@ -65,6 +71,10 @@ export class ChatService {
   // Errores funcionales enviados por el backend (por ejemplo, sala no válida).
   private readonly chatErrorSubject = new Subject<ChatError>();
   readonly chatError$ = this.chatErrorSubject.asObservable();
+
+// EXPLICAR EN EL VÍDEO
+  private readonly bookCreatedSubject = new Subject<BookCreatedEvent>();
+  readonly bookCreated$ = this.bookCreatedSubject.asObservable();
 
   getUsers(): Observable<ChatUser[]> {
     // El interceptor HTTP añade el access token a esta petición protegida.
@@ -134,6 +144,11 @@ export class ChatService {
 
     this.socket.on('chat:error', (error: ChatError) => {
       this.chatErrorSubject.next(error);
+    });
+
+    // EXPLICAR EN EL VÍDEO
+    this.socket.on('book:created', (book: BookCreatedEvent) => {
+      this.bookCreatedSubject.next(book);
     });
 
     // Inicia la conexión después de configurar sus eventos.

@@ -28,10 +28,9 @@ export interface LoginRequest {
   email: string;
   password: string;
 }
-
+//CAMBIO
 export interface LoginResponse {
   token: string;
-  refreshToken: string;
   user: User;
 }
 

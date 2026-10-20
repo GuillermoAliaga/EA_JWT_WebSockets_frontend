@@ -13,7 +13,13 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
-import { ChatMessage, ChatService, ChatUser } from '../../services/chat.service';
+// EXPLICAR EN EL VÍDEO
+import {
+  BookCreatedEvent,
+  ChatMessage,
+  ChatService,
+  ChatUser,
+} from '../../services/chat.service';
 
 type ChatLevel = 'general' | 'group' | 'direct';
 
@@ -44,6 +50,9 @@ export class Chat implements OnInit, OnDestroy {
   readonly error = signal('');
   readonly activeRoom = signal('general');
   readonly onlineIds = signal<string[]>([]);
+
+  // EXPLICAR EN EL VÍDEO
+  readonly newBook = signal<BookCreatedEvent | null>(null);
 
   // El usuario con sesión, para mostrarlo el primero de la lista como "tú"
   readonly me = this.authService.user;
@@ -103,6 +112,11 @@ export class Chat implements OnInit, OnDestroy {
       this.chatService.chatError$.subscribe((error) => {
         this.error.set(error.message);
       }),
+    );
+
+    // EXPLICAR EN EL VÍDEO
+    this.subscriptions.add(
+      this.chatService.bookCreated$.subscribe((book) => this.newBook.set(book)),
     );
 
     this.subscriptions.add(
